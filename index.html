@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maksym Osipa — Automation & n8n</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0d12;
+      --bg-soft: #11131a;
+      --primary: #4f8cff;
+      --secondary: #22d3ee;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(255,255,255,0.08);
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(1200px 600px at 10% -10%, rgba(79,140,255,0.15), transparent),
+                  radial-gradient(800px 400px at 90% 10%, rgba(34,211,238,0.12), transparent),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+
+    header {
+      display: grid;
+      gap: 32px;
+      margin-bottom: 120px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(79,140,255,0.15);
+      color: var(--primary);
+      font-weight: 500;
+      width: fit-content;
+      border: 1px solid var(--border);
+    }
+
+    h1 {
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    h1 span {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-size: 20px;
+      color: var(--muted);
+      max-width: 720px;
+    }
+
+    section {
+      margin-bottom: 120px;
+    }
+
+    h2 {
+      font-size: 36px;
+      margin-bottom: 24px;
+      letter-spacing: -0.01em;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: transform 0.3s ease, border 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(79,140,255,0.4);
+    }
+
+    .card h3 {
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    ul {
+      list-style: none;
+      display: grid;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    ul li::before {
+      content: '✓';
+      color: var(--secondary);
+      margin-right: 10px;
+    }
+
+    .steps {
+      display: grid;
+      gap: 20px;
+    }
+
+    .step {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .step-number {
+      min-width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(79,140,255,0.15);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+    }
+
+    .cta {
+      text-align: center;
+      padding: 80px 24px;
+      background: linear-gradient(135deg, rgba(79,140,255,0.15), rgba(34,211,238,0.12));
+      border-radius: 24px;
+      border: 1px solid var(--border);
+    }
+
+    .cta h2 {
+      margin-bottom: 16px;
+    }
+
+    .cta p {
+      color: var(--muted);
+      margin-bottom: 32px;
+      font-size: 18px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 14px 28px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #020617;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px rgba(79,140,255,0.35);
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 48px 20px;
+      }
+      section {
+        margin-bottom: 80px;
+      }
+    }
+      .form {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .form input,
+    .form textarea {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 15px;
+    }
+
+    .form input:focus,
+    .form textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .form-status {
+      margin-top: 14px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+      .logo {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--text);
+    }
+
+    .logo span {
+      color: var(--primary);
+    }
+
+    .anchor-button {
+      width: fit-content;
+      margin-top: 24px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">MO<span>.</span></div>
+      <span class="badge">Automation • n8n • AI</span>
+      <h1>Максим Осіпа<br><span>Автоматизація без хаосу</span></h1>
+      <p class="subtitle">Технічний спеціаліст з автоматизації бізнес-процесів. Будую системи в n8n, AI та інтеграціях, які економлять час, працюють стабільно і готові до масштабування.</p>
+      <a href="#contact" class="button anchor-button">Звʼязатися</a>
+    </header>
+
+    <section>
+      <h2>Що я автоматизую</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>n8n Workflows</h3>
+          <p>Від простих сценаріїв до складних multi‑workflow систем з error handling та масштабуванням.</p>
+        </div>
+        <div class="card">
+          <h3>Інтеграції</h3>
+          <p>CRM, Airtable, Google Sheets, API, Telegram, Email та кастомні сервіси.</p>
+        </div>
+        <div class="card">
+          <h3>AI‑автоматизації</h3>
+          <p>ChatGPT / OpenAI у бізнес‑процесах: аналіз, генерація, підтримка клієнтів.</p>
+        </div>
+        <div class="card">
+          <h3>Обробка даних</h3>
+          <p>Синхронізація, валідація, трансформація та контроль якості даних.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Чому варто працювати зі мною</h2>
+      <ul>
+        <li>Думаю процесами, а не окремими нодами</li>
+        <li>Будую масштабовану архітектуру, а не тимчасові рішення</li>
+        <li>n8n без «монстр‑воркфлоу»</li>
+        <li>Чесно підказую кращі технічні варіанти</li>
+        <li>Пояснюю логіку, а не роблю магію</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Як ми працюємо</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <p>Розбір бізнес‑задачі та вузьких місць</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <p>Проєктування архітектури автоматизації</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <p>Реалізація та пояснення логіки</p>
+        </div>
+        <div class="step">
+          <div class="step-number">4</div>
+          <p>Оптимізація та підготовка до масштабування</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" id="contact">
+      <h2>Готові автоматизувати процеси?</h2>
+      <p>Залиш заявку — і я звʼяжусь з тобою для розбору задачі.</p>
+
+      <form id="contactForm" class="form">
+        <div class="form-grid">
+          <input type="text" name="name" placeholder="Ваше імʼя" required />
+          <input type="email" name="email" placeholder="Email" required />
+          <input type="text" name="company" placeholder="Компанія / проєкт" />
+          <textarea name="message" rows="4" placeholder="Коротко опишіть задачу" required></textarea>
+        </div>
+        <button type="submit" class="button">Надіслати заявку</button>
+        <p id="formStatus" class="form-status"></p>
+      </form>
+    </section>
+
+    <footer>
+      © 2026 Maksym Osipa • Automation & n8n
+    </footer>
+  </div>
+  <script>
+    const form = document.getElementById('contactForm');
+    const status = document.getElementById('formStatus');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const data = {
+        name: form.name.value,
+        email: form.email.value,
+        company: form.company.value,
+        message: form.message.value,
+        source: 'landing-form'
+      };
+
+      status.textContent = 'Відправка...';
+
+      try {
+        const res = await fetch('https://n8n-production-bdf7.up.railway.app/webhook/form', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+
+        if (!res.ok) throw new Error('Network response was not ok');
+
+        status.textContent = 'Заявку надіслано ✅ Я скоро звʼяжусь з вами.';
+        form.reset();
+      } catch (err) {
+        status.textContent = 'Помилка відправки ❌ Спробуйте пізніше.';
+      }
+    });
+  </script>
+</body>
+</html>
